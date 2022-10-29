@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util
+            https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:component-scan base-package="org.example.annotationConfig"/>
+
+    <context:property-placeholder location="classpath:applicationProperties"/>
+
+
+    <bean id="rockSong1"
+          class="org.example.xmlConfig.model.RockMusic">
+        <property name="nameRockSong" value="${rockSong1}"/>
+        <property name="authorRockSong" value="${rockAuthor1}"/>
+    </bean>
+
+    <bean id="rockSong2"
+          class="org.example.xmlConfig.model.RockMusic">
+        <property name="nameRockSong" value="${rockSong2}"/>
+        <property name="authorRockSong" value="${rockAuthor2}"/>
+    </bean>
+
+    <bean id="classicSong1"
+          class="org.example.xmlConfig.model.ClassicMusic">
+        <property name="nameClassicSong" value="${classicSong1}"/>
+        <property name="authorClassicSong" value="${classicAuthor1}"/>
+    </bean>
+
+    <bean id="classicSong2"
+          class="org.example.xmlConfig.model.ClassicMusic">
+        <property name="nameClassicSong" value="${classicSong2}"/>
+        <property name="authorClassicSong" value="${classicAuthor2}"/>
+    </bean>
+
+    <util:list id="classicMusicList" value-type="org.example.xmlConfig.Music">
+        <ref bean="classicSong1"/>
+        <ref bean="classicSong2"/>
+    </util:list>
+
+    <util:list id="rockMusicList" value-type="org.example.xmlConfig.Music">
+        <ref bean="rockSong1"/>
+        <ref bean="rockSong2"/>
+    </util:list>
+
+    <bean id="rockPlayer" class="org.example.xmlConfig.playerImpl.RockPlayer">
+        <constructor-arg ref="rockMusicList"/>
+    </bean>
+    <bean id="classicPlayer" class="org.example.xmlConfig.playerImpl.ClassicPlayer">
+        <constructor-arg ref="classicMusicList"/>
+    </bean>
+
+    <bean id="musicPlayerRock" class="org.example.xmlConfig.playerImpl.MusicPlayer">
+            <constructor-arg>
+                <ref bean="rockPlayer"/>
+            </constructor-arg>
+    </bean>
+    <bean id="musicPlayerClassic" class="org.example.xmlConfig.playerImpl.MusicPlayer">
+        <constructor-arg>
+            <ref bean="classicPlayer"/>
+        </constructor-arg>
+    </bean>
+
+        </beans>
